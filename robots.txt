@@ -1,0 +1,4 @@
+Sitemap: https://jernejzupancic.si/sitemapindex.xml
+
+User-Agent: *
+Host: jernejzupancic.si
