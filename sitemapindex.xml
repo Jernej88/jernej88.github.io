@@ -7,7 +7,19 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://jernejzupancic.si/categories/blog.xml</loc>
-  <lastmod>2020-02-04T22:12:00Z</lastmod>
+  <lastmod>2020-02-05T21:53:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/categories/gotcha.xml</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/categories/notebook.xml</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/categories/python.xml</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/galleries/rss.xml</loc>
@@ -15,15 +27,27 @@
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/rss.xml</loc>
-  <lastmod>2020-02-04T22:12:00Z</lastmod>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sitemap.xml</loc>
-  <lastmod>2020-02-04T22:12:00Z</lastmod>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sl/categories/blog.xml</loc>
-  <lastmod>2020-02-04T22:12:00Z</lastmod>
+  <lastmod>2020-02-05T21:53:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/sl/categories/gotcha.xml</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/sl/categories/notebook.xml</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/sl/categories/python.xml</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sl/galleries/rss.xml</loc>
@@ -31,6 +55,6 @@
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sl/rss.xml</loc>
-  <lastmod>2020-02-04T22:12:00Z</lastmod>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </sitemap>
 </sitemapindex>

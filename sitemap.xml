@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://jernejzupancic.si/</loc>
-  <lastmod>2020-02-04T21:48:00Z</lastmod>
+  <lastmod>2020-02-04T22:17:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/2020/</loc>
@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/archive.html</loc>
-  <lastmod>2020-02-04T22:11:00Z</lastmod>
+  <lastmod>2020-02-05T21:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/blog/</loc>
@@ -23,11 +23,23 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/</loc>
-  <lastmod>2020-02-04T22:12:00Z</lastmod>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/blog/</loc>
   <lastmod>2020-02-04T22:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/gotcha/</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/notebook/</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/python/</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/galleries/</loc>
@@ -42,8 +54,12 @@
   <lastmod>2020-02-04T21:48:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/posts/python-and-tricky-function-arguments/</loc>
+  <lastmod>2020-02-05T21:46:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/sl/</loc>
-  <lastmod>2020-02-04T21:48:00Z</lastmod>
+  <lastmod>2020-02-04T22:17:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/2020/</loc>
@@ -51,7 +67,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/archive.html</loc>
-  <lastmod>2020-02-04T22:11:00Z</lastmod>
+  <lastmod>2020-02-05T21:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/blog/</loc>
@@ -59,11 +75,23 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/</loc>
-  <lastmod>2020-02-04T22:12:00Z</lastmod>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/blog/</loc>
   <lastmod>2020-02-04T22:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/gotcha/</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/notebook/</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/python/</loc>
+  <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/galleries/</loc>
@@ -73,5 +101,10 @@
   <loc>https://jernejzupancic.si/sl/posts/hello-world/</loc>
   <lastmod>2020-02-04T21:48:00Z</lastmod>
   <xhtml:link rel="alternate" hreflang="en" href="https://jernejzupancic.si/posts/hello-world/" />
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/posts/python-and-tricky-function-arguments/</loc>
+  <lastmod>2020-02-05T21:46:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://jernejzupancic.si/posts/python-and-tricky-function-arguments/" />
  </url>
 </urlset>
