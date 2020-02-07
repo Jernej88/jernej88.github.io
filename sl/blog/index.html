@@ -74,7 +74,38 @@ navbar-dark bg-dark
 
     
 <div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/python-and-tricky-function-arguments/" class="u-url">Python and tricky function arguments</a></h1>
+    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/mysterious-nginx-upstream-errors/" class="u-url">Mysterious nginx upstream errors</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Jernej Zupančič
+            </span></p>
+            <p class="dateline">
+            <a href="../posts/mysterious-nginx-upstream-errors/" rel="bookmark">
+            <time class="published dt-published" datetime="2020-02-07T22:06:59+01:00" itemprop="datePublished" title="2020-02-07 22:06">2020-02-07 22:06</time></a>
+            </p>
+                <p class="commentline">
+        
+    <a href="../posts/mysterious-nginx-upstream-errors/#disqus_thread" data-disqus-identifier="cache/posts/mysterious-nginx-upstream-errors.html">Komentarji</a>
+
+
+        </p>
+</div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>For easier web app deploy we use the following stack</p>
+<ol>
+<li>Ubuntu server</li>
+<li><a href="https://www.docker.com/products/container-runtime">Docker</a></li>
+<li>Containerized <a href="https://github.com/jwilder/nginx-proxy">Nginx proxy</a> with <a href="https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion">Letsencrypt companion</a>
+</li>
+<li>Containerized Web app</li>
+</ol>
+<p>Docker simplifies the web app development by enabling us, the developers, to pin the majority of the software dependencies versions, and, further, to have the exact same dependencies during development as for the deploy. This greatly reduces the "<em>it works on my machine</em>" moments. Those moments do not go away fully, because we usually do not specify the version of every last dependency used, however, they become really rare. One thing we do not test in development, though, is the web app operation when coupled with Nginx. And that sometimes leads to unexpected problems, such as the random upstream errors I will describe in next few lines.
+</p>
+<p class="more"><a href="../posts/mysterious-nginx-upstream-errors/">Več o tem…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/python-and-tricky-function-arguments/" class="u-url">Python and tricky function arguments</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Jernej Zupančič
