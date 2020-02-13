@@ -26,8 +26,24 @@
   <lastmod>2020-02-05T21:57:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://jernejzupancic.si/categories/postgres.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/categories/postgresql.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://jernejzupancic.si/categories/python.xml</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/categories/search.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/categories/trigrams.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/categories/web.xml</loc>
@@ -39,11 +55,11 @@
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/rss.xml</loc>
-  <lastmod>2020-02-07T22:01:00Z</lastmod>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sitemap.xml</loc>
-  <lastmod>2020-02-07T22:01:00Z</lastmod>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sl/categories/blog.xml</loc>
@@ -66,8 +82,24 @@
   <lastmod>2020-02-05T21:57:00Z</lastmod>
  </sitemap>
  <sitemap>
+  <loc>https://jernejzupancic.si/sl/categories/postgres.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/sl/categories/postgresql.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://jernejzupancic.si/sl/categories/python.xml</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/sl/categories/search.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://jernejzupancic.si/sl/categories/trigrams.xml</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sl/categories/web.xml</loc>
@@ -79,6 +111,6 @@
  </sitemap>
  <sitemap>
   <loc>https://jernejzupancic.si/sl/rss.xml</loc>
-  <lastmod>2020-02-07T22:01:00Z</lastmod>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </sitemap>
 </sitemapindex>

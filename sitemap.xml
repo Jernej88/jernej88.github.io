@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/archive.html</loc>
-  <lastmod>2020-02-07T21:07:00Z</lastmod>
+  <lastmod>2020-02-12T21:08:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/blog/</loc>
@@ -23,7 +23,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/</loc>
-  <lastmod>2020-02-07T22:01:00Z</lastmod>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/blog/</loc>
@@ -46,8 +46,24 @@
   <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/categories/postgres/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/postgresql/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/categories/python/</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/search/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/trigrams/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/web/</loc>
@@ -70,6 +86,10 @@
   <lastmod>2020-02-07T21:07:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/posts/postgresql-and-faster-trigram-similarity-search/</loc>
+  <lastmod>2020-02-12T21:08:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/posts/python-and-tricky-function-arguments/</loc>
   <lastmod>2020-02-05T21:46:00Z</lastmod>
  </url>
@@ -83,7 +103,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/archive.html</loc>
-  <lastmod>2020-02-07T21:07:00Z</lastmod>
+  <lastmod>2020-02-12T21:08:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/blog/</loc>
@@ -91,7 +111,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/</loc>
-  <lastmod>2020-02-07T22:01:00Z</lastmod>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/blog/</loc>
@@ -114,8 +134,24 @@
   <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/sl/categories/postgres/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/postgresql/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/sl/categories/python/</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/search/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/trigrams/</loc>
+  <lastmod>2020-02-12T21:21:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/web/</loc>
@@ -134,6 +170,11 @@
   <loc>https://jernejzupancic.si/sl/posts/mysterious-nginx-upstream-errors/</loc>
   <lastmod>2020-02-07T21:07:00Z</lastmod>
   <xhtml:link rel="alternate" hreflang="en" href="https://jernejzupancic.si/posts/mysterious-nginx-upstream-errors/" />
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/posts/postgresql-and-faster-trigram-similarity-search/</loc>
+  <lastmod>2020-02-12T21:08:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://jernejzupancic.si/posts/postgresql-and-faster-trigram-similarity-search/" />
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/posts/python-and-tricky-function-arguments/</loc>

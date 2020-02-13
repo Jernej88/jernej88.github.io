@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
-" lang="en">
+" lang="sl">
 <head>
 <meta charset="utf-8">
-<meta name="description" content="Blog on technical stuff, software development, work and life.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jernej Zupančič blog</title>
-<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
-<link href="../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
-<link href="../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<title>PostgreSQL and faster trigram similarity search | Jernej Zupančič blog</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (sl)" href="../sl/rss.xml">
-<link rel="canonical" href="https://jernejzupancic.si/blog/">
-<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (sl)" href="../../rss.xml">
+<link rel="canonical" href="https://jernejzupancic.si/sl/posts/postgresql-and-faster-trigram-similarity-search/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<meta name="author" content="Jernej Zupančič">
+<link rel="prev" href="../mysterious-nginx-upstream-errors/" title="Mysterious nginx upstream errors" type="text/html">
+<meta property="og:site_name" content="Jernej Zupančič blog">
+<meta property="og:title" content="PostgreSQL and faster trigram similarity search">
+<meta property="og:url" content="https://jernejzupancic.si/sl/posts/postgresql-and-faster-trigram-similarity-search/">
+<meta property="og:description" content="Awesome PostgreSQL claims to be the world's most advanced open source relational database. Considering what it can do, it probably really is. Today I want to write about a text search functionality it">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-02-12T22:08:24+01:00">
+<meta property="article:tag" content="postgres">
+<meta property="article:tag" content="postgresql">
+<meta property="article:tag" content="search">
+<meta property="article:tag" content="trigrams">
+<link rel="alternate" hreflang="en" href="../../../posts/postgresql-and-faster-trigram-similarity-search/">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">Preskoči na glavno vsebino</a>
 
 <!-- Menubar -->
 
@@ -25,7 +37,7 @@
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://jernejzupancic.si/">
+        <a class="navbar-brand" href="https://jernejzupancic.si/sl/">
 
             <span id="blog-title">Jernej Zupančič blog</span>
         </a>
@@ -35,17 +47,17 @@ navbar-dark bg-dark
 
         <div class="collapse navbar-collapse" id="bs-navbar">
             <ul class="navbar-nav mr-auto">
-<li class="nav-item active">
-<a href="." class="nav-link">Blog <span class="sr-only">(active)</span></a>
+<li class="nav-item">
+<a href="../../blog/" class="nav-link">Blog</a>
                 </li>
 <li class="nav-item">
-<a href="../archive.html" class="nav-link">Archive</a>
+<a href="../../archive.html" class="nav-link">Arhiv</a>
                 </li>
 <li class="nav-item">
-<a href="../categories/" class="nav-link">Tags</a>
+<a href="../../categories/" class="nav-link">Značke</a>
                 </li>
 <li class="nav-item">
-<a href="../rss.xml" class="nav-link">RSS feed</a>
+<a href="../../rss.xml" class="nav-link">vir RSS</a>
 
                 
             </li>
@@ -53,7 +65,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://jernejzupancic.si/sl/" rel="alternate" hreflang="sl" class="nav-link">Slovenščina</a></li>
+<li class="nav-item"><a href="https://jernejzupancic.si/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                 
@@ -68,29 +80,28 @@ navbar-dark bg-dark
         
         
         
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">PostgreSQL and faster trigram similarity search</a></h1>
 
-    
-
-
-    
-<div class="postindex">
-    <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/postgresql-and-faster-trigram-similarity-search/" class="u-url">PostgreSQL and faster trigram similarity search</a></h1>
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Jernej Zupančič
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Jernej Zupančič
             </span></p>
             <p class="dateline">
-            <a href="../posts/postgresql-and-faster-trigram-similarity-search/" rel="bookmark">
+            <a href="." rel="bookmark">
             <time class="published dt-published" datetime="2020-02-12T22:08:24+01:00" itemprop="datePublished" title="2020-02-12 22:08">2020-02-12 22:08</time></a>
             </p>
                 <p class="commentline">
         
-    <a href="../posts/postgresql-and-faster-trigram-similarity-search/#disqus_thread" data-disqus-identifier="cache/posts/postgresql-and-faster-trigram-similarity-search.html">Comments</a>
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/postgresql-and-faster-trigram-similarity-search.html">Komentarji</a>
 
+
+            
 
         </p>
 </div>
-    </header><div class="p-summary entry-summary">
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>Awesome <a href="https://www.postgresql.org/">PostgreSQL</a> claims to be the world's most advanced open source relational database. Considering what it can do, it probably really is. Today I want to write about a text search functionality it supports through the <a href="https://www.postgresql.org/docs/12/pgtrgm.html"><strong>pg_trgm</strong></a> module.</p>
 <h2>pg_trgm</h2>
@@ -251,98 +262,39 @@ navbar-dark bg-dark
 </pre>
 </div>
     </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/mysterious-nginx-upstream-errors/" class="u-url">Mysterious nginx upstream errors</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Jernej Zupančič
-            </span></p>
-            <p class="dateline">
-            <a href="../posts/mysterious-nginx-upstream-errors/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-02-07T22:06:59+01:00" itemprop="datePublished" title="2020-02-07 22:06">2020-02-07 22:06</time></a>
-            </p>
-                <p class="commentline">
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/postgres/" rel="tag">postgres</a></li>
+            <li><a class="tag p-category" href="../../categories/postgresql/" rel="tag">postgresql</a></li>
+            <li><a class="tag p-category" href="../../categories/search/" rel="tag">search</a></li>
+            <li><a class="tag p-category" href="../../categories/trigrams/" rel="tag">trigrams</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../mysterious-nginx-upstream-errors/" rel="prev" title="Mysterious nginx upstream errors">Prejšnja objava</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Komentarji</h2>
         
-    <a href="../posts/mysterious-nginx-upstream-errors/#disqus_thread" data-disqus-identifier="cache/posts/mysterious-nginx-upstream-errors.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div>
-<p>For easier web app deploy we use the following stack</p>
-<ol>
-<li>Ubuntu server</li>
-<li><a href="https://www.docker.com/products/container-runtime">Docker</a></li>
-<li>Containerized <a href="https://github.com/jwilder/nginx-proxy">Nginx proxy</a> with <a href="https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion">Letsencrypt companion</a>
-</li>
-<li>Containerized Web app</li>
-</ol>
-<p>Docker simplifies the web app development by enabling us, the developers, to pin the majority of the software dependencies versions, and, further, to have the exact same dependencies during development as for the deploy. This greatly reduces the "<em>it works on my machine</em>" moments. Those moments do not go away fully, because we usually do not specify the version of every last dependency used, however, they become really rare. One thing we do not test in development, though, is the web app operation when coupled with Nginx. And that sometimes leads to unexpected problems, such as the random upstream errors I will describe in next few lines.
-</p>
-<p class="more"><a href="../posts/mysterious-nginx-upstream-errors/">Read more…</a></p>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/python-and-tricky-function-arguments/" class="u-url">Python and tricky function arguments</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Jernej Zupančič
-            </span></p>
-            <p class="dateline">
-            <a href="../posts/python-and-tricky-function-arguments/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-02-05T21:53:24+01:00" itemprop="datePublished" title="2020-02-05 21:53">2020-02-05 21:53</time></a>
-            </p>
-                <p class="commentline">
         
-    <a href="../posts/python-and-tricky-function-arguments/#disqus_thread" data-disqus-identifier="cache/posts/python-and-tricky-function-arguments.html">Comments</a>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="jernejzupancic",
+            disqus_url="https://jernejzupancic.si/sl/posts/postgresql-and-faster-trigram-similarity-search/",
+        disqus_title="PostgreSQL and faster trigram similarity search",
+        disqus_identifier="cache/posts/postgresql-and-faster-trigram-similarity-search.html",
+        disqus_config = function () {
+            this.language = "sl";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Python allowed me to write several pieces of useful software using drastically smaller number of lines required at some other languages. My first programming steps were in Java, during the <em>Introduction to programming</em> course at the Faculty of Mathematics and Physics, Ljubljana. Java and I didn't get along well. I enjoyed the course but writing Java code didn't really inspire me. The second year, however, our tutors upgraded to Python. Now that felt pretty good. I felt much more comfortable writing small scripts in Python than Java and used Python and it's ecosystem in other courses as well.
-Python code, however, sometimes behaves in a way that seems buggy at first, unless you know what is happening.</p>
-<p class="more"><a href="../posts/python-and-tricky-function-arguments/">Read more…</a></p>
-</div>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="../posts/hello-world/" class="u-url">Hello world!</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Jernej Zupančič
-            </span></p>
-            <p class="dateline">
-            <a href="../posts/hello-world/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-02-04T22:48:51+01:00" itemprop="datePublished" title="2020-02-04 22:48">2020-02-04 22:48</time></a>
-            </p>
-                <p class="commentline">
-        
-    <a href="../posts/hello-world/#disqus_thread" data-disqus-identifier="cache/posts/hello-world.html">Comments</a>
-
-
-        </p>
-</div>
-    </header><div class="p-summary entry-summary">
-    <div>
-<p>So here it goes, my first post on my first blog. The goal of this blog is to document the things I learn related to technology, software development, artificial intelligence, project management and soft skills. Occasionally I will add a thought or two about life in general. 
-</p>
-<p class="more"><a href="../posts/hello-world/">Read more…</a></p>
-</div>
-    </div>
-    </article>
-</div>
-
-
-
-        
-       <script>var disqus_shortname="jernejzupancic";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
-        MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
-        </script><!--End of body content--><footer id="footer"><div class="text-center">
+        </section></article><script>var disqus_shortname="jernejzupancic";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer"><div class="text-center">
 <p>
 <span class="fa-stack fa-2x">
 <a href="https://github.com/Jernej88">
@@ -361,7 +313,7 @@ Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupan�
 </div>
 
 
-        <script src="../assets/js/all-nocdn.js"></script><script>
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {
