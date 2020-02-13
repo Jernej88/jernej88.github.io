@@ -10,6 +10,7 @@
 -->
 
 Awesome [PostgreSQL](https://www.postgresql.org/) claims to be the world's most advanced open source relational database. Considering what it can do, it probably really is. Today I want to write about a text search functionality it supports through the [**pg_trgm**](https://www.postgresql.org/docs/12/pgtrgm.html) module.
+<!-- TEASER_END -->
 
 # pg_trgm
 
