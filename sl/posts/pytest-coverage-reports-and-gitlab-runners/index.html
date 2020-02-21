@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PyTest, coverage reports and Gitlab runners | Jernej Zupančič blog</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (sl)" href="../../rss.xml">
+<link rel="canonical" href="https://jernejzupancic.si/sl/posts/pytest-coverage-reports-and-gitlab-runners/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<meta name="author" content="Jernej Zupančič">
+<link rel="prev" href="../postgresql-and-faster-trigram-similarity-search/" title="PostgreSQL and faster trigram similarity search" type="text/html">
+<meta property="og:site_name" content="Jernej Zupančič blog">
+<meta property="og:title" content="PyTest, coverage reports and Gitlab runners">
+<meta property="og:url" content="https://jernejzupancic.si/sl/posts/pytest-coverage-reports-and-gitlab-runners/">
+<meta property="og:description" content="A friend of mine says that he doesn't need tests, he just writes bug-free code. Everyone thinks that his or her code is without bugs, while I think that a bunch of non-trivial amount of code almost de">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-02-21T21:52:45+01:00">
+<meta property="article:tag" content="coverage">
+<meta property="article:tag" content="gitlab">
+<meta property="article:tag" content="minio">
+<meta property="article:tag" content="pytest">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="testing">
+<link rel="alternate" hreflang="en" href="../../../posts/pytest-coverage-reports-and-gitlab-runners/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Preskoči na glavno vsebino</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="https://jernejzupancic.si/sl/">
+
+            <span id="blog-title">Jernej Zupančič blog</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../blog/" class="nav-link">Blog</a>
+                </li>
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Arhiv</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Značke</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">vir RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li>
+            </li>
+<li class="nav-item"><a href="https://jernejzupancic.si/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+
+                
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">PyTest, coverage reports and Gitlab runners</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Jernej Zupančič
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-02-21T21:52:45+01:00" itemprop="datePublished" title="2020-02-21 21:52">2020-02-21 21:52</time></a>
+            </p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/pytest-and-viewing-coverage-reports.html">Komentarji</a>
+
+
+            
+
+        </p>
+</div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>A friend of mine says that he doesn't need tests, he just writes bug-free code. Everyone thinks that his or her code is without bugs, while I think that a bunch of non-trivial amount of code almost definitely contains a bug or two, if not tested properly. And even then, one cannot be sure that no hidden bug lurks somewhere. I was not always like that. Once upon a time I too thought that testing is a waste of time. Why would you test something if you just know it works? Such is the current state in research, good software development practices are rarely followed and it is up to the few of us to try and force the good practices throughout the research organizations.</p>
+<p>I am still learning about what can and should be done. Testing is one of the things I try to enforce with fellow researchers and students, when working on common projects. The other ones are: automation, documentation, and reproducibility. In this post I will describe our testing set-up I established. Since we work mainly with Python, we use popular <a href="https://docs.pytest.org/en/latest/">PyTest</a> framework for testing and the <a href="https://pytest-cov.readthedocs.io/en/latest/">pytest-cov</a>, a PyTest plug-in using <a href="https://coverage.readthedocs.io/en/latest/">coverage</a> for measuring the code coverage of Python programs. After the test coverage report generation, the html report is uploaded to a self-hosted <a href="https://min.io/">Minio</a> instance for viewing.
+<!-- TEASER_END --></p>
+<p>First thing first, all the code should live in a remote Git repository. At JSI we are fortunate enough that our IT department provides us with a self-hosted <a href="https://about.gitlab.com/install/?version=ce">Gitlab Community Edition</a> instance. Gitlab comes with a ton of features, however, not all of them are enabled in our instance. For the answer as to why is that, I am still waiting for a response from the IT department to the email I have sent half a year ago. Yes, they are not very quick about user questions or requests.</p>
+<h2>Gitlab runners</h2>
+<p>Anyway, one of the features that is enabled is the CI / CD pipelines. These pipelines enables us to run scripts using the Gitlab runners on every code push to the Gitlab instance. I have hacked together a script for our Gitlab runners virtual machine, that enables us to start a Gitlab runner for each project/organization separately.</p>
+<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># This is a script for managing gitlab-runners</span>
+<span class="c1">#</span>
+<span class="c1"># Usage:</span>
+<span class="c1">#</span>
+<span class="c1">#    $ sudo bash ./start-runner.sh RUNNER-NAME [update,init,start]</span>
+<span class="c1">#</span>
+<span class="c1"># RUNNER-NAME  -  the name of the runner you want to manage</span>
+<span class="c1"># COMMAND:</span>
+<span class="c1">#    update    -  update the gitlab-runner container version</span>
+<span class="c1">#    init      -  run when you want to configure a runner</span>
+<span class="c1">#    start     -  start a runner using existing configuration</span>
+<span class="c1">#</span>
+<span class="c1"># Example:</span>
+<span class="c1">#</span>
+<span class="c1">#    $ sudo bash ./start-runner.sh my-awesome-project init</span>
+<span class="c1">#    $ ...enter credentials as asked</span>
+<span class="c1">#    $ sudo bash ./start-runner.sh my-awesome-project start</span>
+
+<span class="nv">RUNNER_NAME</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="nv">COMMAND</span><span class="o">=</span><span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+
+<span class="nv">DIR</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span> <span class="nb">cd</span> <span class="s2">"</span><span class="k">$(</span> dirname <span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span> <span class="k">)</span><span class="s2">"</span> &gt;/dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="o">&amp;&amp;</span> <span class="nb">pwd</span> <span class="k">)</span><span class="s2">"</span>
+<span class="nv">VOLUME_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$DIR</span><span class="s2">/volumes"</span>
+<span class="nv">CONFIG_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$VOLUME_DIR</span><span class="s2">/</span><span class="nv">$RUNNER_NAME</span><span class="s2">/config"</span>
+
+<span class="k">if</span> <span class="o">[</span> ! -f <span class="s2">"</span><span class="nv">$CONFIG_DIR</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    mkdir -p <span class="s2">"</span><span class="nv">$CONFIG_DIR</span><span class="s2">"</span>
+<span class="k">fi</span>
+
+update <span class="o">()</span> <span class="o">{</span>
+  docker pull gitlab/gitlab-runner
+<span class="o">}</span>
+
+init <span class="o">()</span> <span class="o">{</span>
+  update
+  <span class="c1"># register runner</span>
+  docker run -it --rm -v <span class="s2">"</span><span class="nv">$CONFIG_DIR</span><span class="s2">"</span>:/etc/gitlab-runner gitlab/gitlab-runner:latest register
+<span class="o">}</span>
+
+start <span class="o">()</span> <span class="o">{</span>
+  docker rm -f gitlab-runner-<span class="s2">"</span><span class="nv">$RUNNER_NAME</span><span class="s2">"</span>
+
+  <span class="c1"># RUN GitLab Runner</span>
+  docker run -d --name <span class="s2">"gitlab-runner-</span><span class="nv">$RUNNER_NAME</span><span class="s2">"</span> --restart unless-stopped <span class="se">\</span>
+         -v <span class="s2">"</span><span class="nv">$CONFIG_DIR</span><span class="s2">"</span>:/etc/gitlab-runner <span class="se">\</span>
+         -v /var/run/docker.sock:/var/run/docker.sock <span class="se">\</span>
+         gitlab/gitlab-runner:latest
+<span class="o">}</span>
+
+<span class="s2">"</span><span class="nv">$COMMAND</span><span class="s2">"</span>
+</pre>
+
+
+<p>When a Gitlab runner is run and registered with the organization or a repository it can receive and handle jobs, specified in the <a href="https://docs.gitlab.com/ee/ci/yaml/"><code>.gitlab-ci.yml</code></a> file. One type of such jobs are usually tests.</p>
+<h2>Tests</h2>
+<p>Testing with the PyTest framework is really easy. Most of the time you are just writing the <code>assert</code> statements, where your expectation as to how the code should work is tested. I found <a href="https://pragprog.com/book/bopytest/python-testing-with-pytest">Python testing with pytest</a> a useful reference although the PyTest documentation is itself quite good already.</p>
+<p>In order to get an idea on how much of your code is covered with tests we use the <code>pytest-cov</code> package. It track what statements were tested and which were missed and can generate a succinct report presented in the terminal or an interactive html report (among others), where you can view exactly which lines  are tested and which are not. Using Gitlab you can specify a regex to catch the overall coverage, which can give you a nice looking badge to look at and feel proud. Sometimes.</p>
+<p><img alt="pipeline badge" src="../../../images/pipeline-badges.png" style="display:block;margin-left:auto;margin-right:auto" title="pipeline badge"></p>
+<p>At the beginning you will write your test and see the coverage metric go up-up-up. After a while though, you may start to wonder which parts of your code remain uncovered. That is when you will need to produce the html report, like this:</p>
+<pre class="code literal-block"><span></span>pytest --cov-report term --cov-report html --cov<span class="o">=</span>app -v tests/
+</pre>
+
+
+<p>You need the <code>term</code> (terminal) report, so the Gitlab can display the overall coverage info and the <code>html</code> report so you can see what needs to be tested next. </p>
+<h2>Vieving the coverage reports</h2>
+<p>When running the tests locally, you can view the report without problems:</p>
+<pre class="code literal-block"><span></span>$ <span class="nb">cd</span> htmlcov
+$ python -m http.server
+</pre>
+
+
+<p>However, when the report is generated by Gitlab runner, viewing the report becomes trickier. I have searched for a way to enable uploading the serving the reports automatically after they become available. I have come up with the following solution. We alread have a firewalled testing machine that runs Gitlab runners. We can use the same machine to run a self-hosted <a href="https://min.io/">Minio</a> instance (self-hosted S3 alternative for object storage). When configured correctly it can host static sites with ease. In the end, I hacked together the following script:</p>
+<pre class="code literal-block"><span></span><span class="ch">#!/bin/sh</span>
+
+<span class="nv">HTMLCOV_LOCATION</span><span class="o">=</span><span class="s2">"htmlcov"</span>
+<span class="nv">MINIO_BASE</span><span class="o">={</span>YOUR-MINIO-SERVER-HOST<span class="o">}</span>
+<span class="nv">MINIO_NAME</span><span class="o">=</span><span class="s2">"minio"</span>
+
+<span class="nv">RANDOM_FOLDER_NAME</span><span class="o">=</span><span class="k">$(</span>cat /dev/urandom <span class="p">|</span> tr -dc <span class="s1">'a-zA-Z0-9'</span> <span class="p">|</span> head -c <span class="m">64</span><span class="k">)</span>
+
+./mc config host add <span class="s2">"</span><span class="nv">$MINIO_NAME</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$MINIO_BASE</span><span class="s2">"</span> <span class="o">{</span>YOUR-MINIO-ACCESS-KEY<span class="o">}</span> <span class="o">{</span>YOUR-MINIO-SECRET-KEY<span class="o">}</span>
+
+<span class="nv">MINIO_FOLDER</span><span class="o">=</span><span class="s2">"/coverage/</span><span class="nv">$RANDOM_FOLDER_NAME</span><span class="s2">"</span>
+
+./mc cp --recursive <span class="s2">"</span><span class="nv">$HTMLCOV_LOCATION</span><span class="s2">/"</span> <span class="s2">"</span><span class="nv">$MINIO_NAME</span><span class="s2">/</span><span class="nv">$MINIO_FOLDER</span><span class="s2">/"</span>
+./mc policy <span class="nb">set</span> public <span class="s2">"</span><span class="nv">$MINIO_NAME</span><span class="s2">/</span><span class="nv">$MINIO_FOLDER</span><span class="s2">"</span>
+
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">"========================================================================="</span>
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">"Coverage report is available at the following link"</span>
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">"    </span><span class="nv">$MINIO_BASE$MINIO_FOLDER</span><span class="s2">/index.html"</span>
+</pre>
+
+
+<p>This is run after the test and uploads the generated html report to the Minio instance using the official <a href="https://docs.min.io/docs/minio-client-complete-guide">Minio client</a> - <code>mc</code>. Yes, this adds 11MB to your repo. I have tried using <code>curl</code> for uploading the files, however, I constantly ran into problems with it. In the end I just settled for the client.</p>
+<p>One of the key line in the script is the following</p>
+<pre class="code literal-block"><span></span>./mc policy <span class="nb">set</span> public <span class="s2">"</span><span class="nv">$MINIO_NAME</span><span class="s2">/</span><span class="nv">$MINIO_FOLDER</span><span class="s2">"</span>
+</pre>
+
+
+<p>This enables the hosting of the folder as a static site, which can be viewed by following the random link generated within the script. Now, when a test is run, the coverage report is generated, Gitlab reports the overall statistics and a link is provided in the test job output, which can be followed to see what tests have to be written next. And everyone on the team is on the same page at any time.</p>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/coverage/" rel="tag">coverage</a></li>
+            <li><a class="tag p-category" href="../../categories/gitlab/" rel="tag">gitlab</a></li>
+            <li><a class="tag p-category" href="../../categories/minio/" rel="tag">minio</a></li>
+            <li><a class="tag p-category" href="../../categories/pytest/" rel="tag">pytest</a></li>
+            <li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+            <li><a class="tag p-category" href="../../categories/testing/" rel="tag">testing</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../postgresql-and-faster-trigram-similarity-search/" rel="prev" title="PostgreSQL and faster trigram similarity search">Prejšnja objava</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Komentarji</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="jernejzupancic",
+            disqus_url="https://jernejzupancic.si/sl/posts/pytest-coverage-reports-and-gitlab-runners/",
+        disqus_title="PyTest, coverage reports and Gitlab runners",
+        disqus_identifier="cache/posts/pytest-and-viewing-coverage-reports.html",
+        disqus_config = function () {
+            this.language = "sl";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="jernejzupancic";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer"><div class="text-center">
+<p>
+<span class="fa-stack fa-2x">
+<a href="https://github.com/Jernej88">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <i class="fa fa-github fa-inverse fa-stack-1x"></i>
+</a>
+</span>
+</p>
+</div>
+Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+ <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+ <img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
+
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

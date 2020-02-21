@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://jernejzupancic.si/</loc>
-  <lastmod>2020-02-05T22:05:00Z</lastmod>
+  <lastmod>2020-02-21T22:14:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/2020/</loc>
@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/archive.html</loc>
-  <lastmod>2020-02-12T21:08:00Z</lastmod>
+  <lastmod>2020-02-21T21:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/blog/</loc>
@@ -23,19 +23,31 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/</loc>
-  <lastmod>2020-02-12T21:21:00Z</lastmod>
+  <lastmod>2020-02-21T22:13:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/blog/</loc>
   <lastmod>2020-02-04T22:12:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/categories/coverage/</loc>
+  <lastmod>2020-02-21T22:13:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/categories/docker/</loc>
   <lastmod>2020-02-07T22:01:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/categories/gitlab/</loc>
+  <lastmod>2020-02-21T22:13:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/categories/gotcha/</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/minio/</loc>
+  <lastmod>2020-02-21T21:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/nginx/</loc>
@@ -54,12 +66,20 @@
   <lastmod>2020-02-12T21:21:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/categories/pytest/</loc>
+  <lastmod>2020-02-21T21:11:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/categories/python/</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/search/</loc>
   <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/categories/testing/</loc>
+  <lastmod>2020-02-21T21:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/categories/trigrams/</loc>
@@ -90,6 +110,10 @@
   <lastmod>2020-02-12T21:08:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/posts/pytest-coverage-reports-and-gitlab-runners/</loc>
+  <lastmod>2020-02-21T21:28:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/posts/python-and-tricky-function-arguments/</loc>
   <lastmod>2020-02-05T21:46:00Z</lastmod>
  </url>
@@ -103,7 +127,7 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/archive.html</loc>
-  <lastmod>2020-02-12T21:08:00Z</lastmod>
+  <lastmod>2020-02-21T21:45:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/blog/</loc>
@@ -111,19 +135,31 @@
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/</loc>
-  <lastmod>2020-02-12T21:21:00Z</lastmod>
+  <lastmod>2020-02-21T22:13:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/blog/</loc>
   <lastmod>2020-02-04T22:12:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/sl/categories/coverage/</loc>
+  <lastmod>2020-02-21T22:13:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/sl/categories/docker/</loc>
   <lastmod>2020-02-07T22:01:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/sl/categories/gitlab/</loc>
+  <lastmod>2020-02-21T22:13:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/sl/categories/gotcha/</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/minio/</loc>
+  <lastmod>2020-02-21T21:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/nginx/</loc>
@@ -142,12 +178,20 @@
   <lastmod>2020-02-12T21:21:00Z</lastmod>
  </url>
  <url>
+  <loc>https://jernejzupancic.si/sl/categories/pytest/</loc>
+  <lastmod>2020-02-21T21:11:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://jernejzupancic.si/sl/categories/python/</loc>
   <lastmod>2020-02-05T21:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/search/</loc>
   <lastmod>2020-02-12T21:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/categories/testing/</loc>
+  <lastmod>2020-02-21T21:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/categories/trigrams/</loc>
@@ -175,6 +219,11 @@
   <loc>https://jernejzupancic.si/sl/posts/postgresql-and-faster-trigram-similarity-search/</loc>
   <lastmod>2020-02-12T21:08:00Z</lastmod>
   <xhtml:link rel="alternate" hreflang="en" href="https://jernejzupancic.si/posts/postgresql-and-faster-trigram-similarity-search/" />
+ </url>
+ <url>
+  <loc>https://jernejzupancic.si/sl/posts/pytest-coverage-reports-and-gitlab-runners/</loc>
+  <lastmod>2020-02-21T21:28:00Z</lastmod>
+  <xhtml:link rel="alternate" hreflang="en" href="https://jernejzupancic.si/posts/pytest-coverage-reports-and-gitlab-runners/" />
  </url>
  <url>
   <loc>https://jernejzupancic.si/sl/posts/python-and-tricky-function-arguments/</loc>
