@@ -11,8 +11,8 @@
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (sl)" href="../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (sl)" hreflang="sl" href="../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
 <link rel="canonical" href="https://jernejzupancic.si/sl/blog/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 </head>
@@ -22,10 +22,11 @@
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://jernejzupancic.si/sl/">
+        <a class="navbar-brand" href="../">
 
             <span id="blog-title">Jernej Zupančič blog</span>
         </a>
@@ -53,7 +54,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://jernejzupancic.si/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                 
@@ -93,8 +94,7 @@ navbar-dark bg-dark
     </header><div class="p-summary entry-summary">
     <div>
 <p>A friend of mine says that he doesn't need tests, he just writes bug-free code. Everyone thinks that his or her code is without bugs, while I think that a bunch of non-trivial amount of code almost definitely contains a bug or two, if not tested properly. And even then, one cannot be sure that no hidden bug lurks somewhere. I was not always like that. Once upon a time I too thought that testing is a waste of time. Why would you test something if you just know it works? Such is the current state in research, good software development practices are rarely followed and it is up to the few of us to try and force the good practices throughout the research organizations.</p>
-<p>I am still learning about what can and should be done. Testing is one of the things I try to enforce with fellow researchers and students, when working on common projects. The other ones are: automation, documentation, and reproducibility. In this post I will describe our testing set-up I established. Since we work mainly with Python, we use popular <a href="https://docs.pytest.org/en/latest/">PyTest</a> framework for testing and the <a href="https://pytest-cov.readthedocs.io/en/latest/">pytest-cov</a>, a PyTest plug-in using <a href="https://coverage.readthedocs.io/en/latest/">coverage</a> for measuring the code coverage of Python programs. After the test coverage report generation, the html report is uploaded to a self-hosted <a href="https://min.io/">Minio</a> instance for viewing.
-</p>
+<p>I am still learning about what can and should be done. Testing is one of the things I try to enforce with fellow researchers and students, when working on common projects. The other ones are: automation, documentation, and reproducibility. In this post I will describe our testing set-up I established. Since we work mainly with Python, we use popular <a href="https://docs.pytest.org/en/latest/">PyTest</a> framework for testing and the <a href="https://pytest-cov.readthedocs.io/en/latest/">pytest-cov</a>, a PyTest plug-in using <a href="https://coverage.readthedocs.io/en/latest/">coverage</a> for measuring the code coverage of Python programs. After the test coverage report generation, the html report is uploaded to a self-hosted <a href="https://min.io/">Minio</a> instance for viewing.</p>
 <p class="more"><a href="../posts/pytest-coverage-reports-and-gitlab-runners/">Več o tem…</a></p>
 </div>
     </div>
@@ -116,8 +116,7 @@ navbar-dark bg-dark
 </div>
     </header><div class="p-summary entry-summary">
     <div>
-<p>Awesome <a href="https://www.postgresql.org/">PostgreSQL</a> claims to be the world's most advanced open source relational database. Considering what it can do, it probably really is. Today I want to write about a text search functionality it supports through the <a href="https://www.postgresql.org/docs/12/pgtrgm.html"><strong>pg_trgm</strong></a> module.
-</p>
+<p>Awesome <a href="https://www.postgresql.org/">PostgreSQL</a> claims to be the world's most advanced open source relational database. Considering what it can do, it probably really is. Today I want to write about a text search functionality it supports through the <a href="https://www.postgresql.org/docs/12/pgtrgm.html"><strong>pg_trgm</strong></a> module.</p>
 <p class="more"><a href="../posts/postgresql-and-faster-trigram-similarity-search/">Več o tem…</a></p>
 </div>
     </div>
@@ -147,8 +146,7 @@ navbar-dark bg-dark
 </li>
 <li>Containerized Web app</li>
 </ol>
-<p>Docker simplifies the web app development by enabling us, the developers, to pin the majority of the software dependencies versions, and, further, to have the exact same dependencies during development as for the deploy. This greatly reduces the "<em>it works on my machine</em>" moments. Those moments do not go away fully, because we usually do not specify the version of every last dependency used, however, they become really rare. One thing we do not test in development, though, is the web app operation when coupled with Nginx. And that sometimes leads to unexpected problems, such as the random upstream errors I will describe in next few lines.
-</p>
+<p>Docker simplifies the web app development by enabling us, the developers, to pin the majority of the software dependencies versions, and, further, to have the exact same dependencies during development as for the deploy. This greatly reduces the "<em>it works on my machine</em>" moments. Those moments do not go away fully, because we usually do not specify the version of every last dependency used, however, they become really rare. One thing we do not test in development, though, is the web app operation when coupled with Nginx. And that sometimes leads to unexpected problems, such as the random upstream errors I will describe in next few lines.</p>
 <p class="more"><a href="../posts/mysterious-nginx-upstream-errors/">Več o tem…</a></p>
 </div>
     </div>
@@ -199,8 +197,7 @@ Python code, however, sometimes behaves in a way that seems buggy at first, unle
 </div>
     </header><div class="p-summary entry-summary">
     <div>
-<p>So here it goes, my first post on my first blog. The goal of this blog is to document the things I learn related to technology, software development, artificial intelligence, project management and soft skills. Occasionally I will add a thought or two about life in general. 
-</p>
+<p>So here it goes, my first post on my first blog. The goal of this blog is to document the things I learn related to technology, software development, artificial intelligence, project management and soft skills. Occasionally I will add a thought or two about life in general. </p>
 <p class="more"><a href="../posts/hello-world/">Več o tem…</a></p>
 </div>
     </div>
@@ -222,7 +219,7 @@ Python code, however, sometimes behaves in a way that seems buggy at first, unle
 </span>
 </p>
 </div>
-Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+Contents © 2021         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
  <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
  <img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
 
@@ -236,9 +233,7 @@ Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupan�
         <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

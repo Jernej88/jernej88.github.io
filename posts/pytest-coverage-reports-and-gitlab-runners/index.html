@@ -10,8 +10,8 @@
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (sl)" href="../../sl/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (sl)" hreflang="sl" href="../../sl/rss.xml">
 <link rel="canonical" href="https://jernejzupancic.si/posts/pytest-coverage-reports-and-gitlab-runners/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <meta name="author" content="Jernej Zupančič">
@@ -36,10 +36,11 @@
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://jernejzupancic.si/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">Jernej Zupančič blog</span>
         </a>
@@ -67,7 +68,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://jernejzupancic.si/sl/" rel="alternate" hreflang="sl" class="nav-link">Slovenščina</a></li>
+<li class="nav-item"><a href="../../sl/" rel="alternate" hreflang="sl" class="nav-link">Slovenščina</a></li>
 
                 
                 
@@ -106,12 +107,13 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>A friend of mine says that he doesn't need tests, he just writes bug-free code. Everyone thinks that his or her code is without bugs, while I think that a bunch of non-trivial amount of code almost definitely contains a bug or two, if not tested properly. And even then, one cannot be sure that no hidden bug lurks somewhere. I was not always like that. Once upon a time I too thought that testing is a waste of time. Why would you test something if you just know it works? Such is the current state in research, good software development practices are rarely followed and it is up to the few of us to try and force the good practices throughout the research organizations.</p>
-<p>I am still learning about what can and should be done. Testing is one of the things I try to enforce with fellow researchers and students, when working on common projects. The other ones are: automation, documentation, and reproducibility. In this post I will describe our testing set-up I established. Since we work mainly with Python, we use popular <a href="https://docs.pytest.org/en/latest/">PyTest</a> framework for testing and the <a href="https://pytest-cov.readthedocs.io/en/latest/">pytest-cov</a>, a PyTest plug-in using <a href="https://coverage.readthedocs.io/en/latest/">coverage</a> for measuring the code coverage of Python programs. After the test coverage report generation, the html report is uploaded to a self-hosted <a href="https://min.io/">Minio</a> instance for viewing.
-<!-- TEASER_END --></p>
+<p>I am still learning about what can and should be done. Testing is one of the things I try to enforce with fellow researchers and students, when working on common projects. The other ones are: automation, documentation, and reproducibility. In this post I will describe our testing set-up I established. Since we work mainly with Python, we use popular <a href="https://docs.pytest.org/en/latest/">PyTest</a> framework for testing and the <a href="https://pytest-cov.readthedocs.io/en/latest/">pytest-cov</a>, a PyTest plug-in using <a href="https://coverage.readthedocs.io/en/latest/">coverage</a> for measuring the code coverage of Python programs. After the test coverage report generation, the html report is uploaded to a self-hosted <a href="https://min.io/">Minio</a> instance for viewing.</p>
+<!-- TEASER_END -->
+
 <p>First thing first, all the code should live in a remote Git repository. At JSI we are fortunate enough that our IT department provides us with a self-hosted <a href="https://about.gitlab.com/install/?version=ce">Gitlab Community Edition</a> instance. Gitlab comes with a ton of features, however, not all of them are enabled in our instance. For the answer as to why is that, I am still waiting for a response from the IT department to the email I have sent half a year ago. Yes, they are not very quick about user questions or requests.</p>
 <h2>Gitlab runners</h2>
 <p>Anyway, one of the features that is enabled is the CI / CD pipelines. These pipelines enables us to run scripts using the Gitlab runners on every code push to the Gitlab instance. I have hacked together a script for our Gitlab runners virtual machine, that enables us to start a Gitlab runner for each project/organization separately.</p>
-<pre class="code literal-block"><span></span><span class="ch">#!/bin/bash</span>
+<pre class="code literal-block"><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># This is a script for managing gitlab-runners</span>
 <span class="c1">#</span>
@@ -163,8 +165,7 @@ start <span class="o">()</span> <span class="o">{</span>
 <span class="o">}</span>
 
 <span class="s2">"</span><span class="nv">$COMMAND</span><span class="s2">"</span>
-</pre>
-
+</code></pre>
 
 <p>When a Gitlab runner is run and registered with the organization or a repository it can receive and handle jobs, specified in the <a href="https://docs.gitlab.com/ee/ci/yaml/"><code>.gitlab-ci.yml</code></a> file. One type of such jobs are usually tests.</p>
 <h2>Tests</h2>
@@ -172,20 +173,18 @@ start <span class="o">()</span> <span class="o">{</span>
 <p>In order to get an idea on how much of your code is covered with tests we use the <code>pytest-cov</code> package. It track what statements were tested and which were missed and can generate a succinct report presented in the terminal or an interactive html report (among others), where you can view exactly which lines  are tested and which are not. Using Gitlab you can specify a regex to catch the overall coverage, which can give you a nice looking badge to look at and feel proud. Sometimes.</p>
 <p><img alt="pipeline badge" src="../../images/pipeline-badges.png" style="display:block;margin-left:auto;margin-right:auto" title="pipeline badge"></p>
 <p>At the beginning you will write your test and see the coverage metric go up-up-up. After a while though, you may start to wonder which parts of your code remain uncovered. That is when you will need to produce the html report, like this:</p>
-<pre class="code literal-block"><span></span>pytest --cov-report term --cov-report html --cov<span class="o">=</span>app -v tests/
-</pre>
-
+<pre class="code literal-block"><span></span><code>pytest --cov-report term --cov-report html --cov<span class="o">=</span>app -v tests/
+</code></pre>
 
 <p>You need the <code>term</code> (terminal) report, so the Gitlab can display the overall coverage info and the <code>html</code> report so you can see what needs to be tested next. </p>
 <h2>Vieving the coverage reports</h2>
 <p>When running the tests locally, you can view the report without problems:</p>
-<pre class="code literal-block"><span></span>$ <span class="nb">cd</span> htmlcov
+<pre class="code literal-block"><span></span><code>$ <span class="nb">cd</span> htmlcov
 $ python -m http.server
-</pre>
-
+</code></pre>
 
 <p>However, when the report is generated by Gitlab runner, viewing the report becomes trickier. I have searched for a way to enable uploading the serving the reports automatically after they become available. I have come up with the following solution. We alread have a firewalled testing machine that runs Gitlab runners. We can use the same machine to run a self-hosted <a href="https://min.io/">Minio</a> instance (self-hosted S3 alternative for object storage). When configured correctly it can host static sites with ease. In the end, I hacked together the following script:</p>
-<pre class="code literal-block"><span></span><span class="ch">#!/bin/sh</span>
+<pre class="code literal-block"><span></span><code><span class="ch">#!/bin/sh</span>
 
 <span class="nv">HTMLCOV_LOCATION</span><span class="o">=</span><span class="s2">"htmlcov"</span>
 <span class="nv">MINIO_BASE</span><span class="o">={</span>YOUR-MINIO-SERVER-HOST<span class="o">}</span>
@@ -207,14 +206,12 @@ $ python -m http.server
 <span class="nb">echo</span> <span class="s2">"Coverage report is available at the following link"</span>
 <span class="nb">echo</span> <span class="s2">" "</span>
 <span class="nb">echo</span> <span class="s2">"    </span><span class="nv">$MINIO_BASE$MINIO_FOLDER</span><span class="s2">/index.html"</span>
-</pre>
-
+</code></pre>
 
 <p>This is run after the test and uploads the generated html report to the Minio instance using the official <a href="https://docs.min.io/docs/minio-client-complete-guide">Minio client</a> - <code>mc</code>. Yes, this adds 11MB to your repo. I have tried using <code>curl</code> for uploading the files, however, I constantly ran into problems with it. In the end I just settled for the client.</p>
 <p>One of the key line in the script is the following</p>
-<pre class="code literal-block"><span></span>./mc policy <span class="nb">set</span> public <span class="s2">"</span><span class="nv">$MINIO_NAME</span><span class="s2">/</span><span class="nv">$MINIO_FOLDER</span><span class="s2">"</span>
-</pre>
-
+<pre class="code literal-block"><span></span><code>./mc policy <span class="nb">set</span> public <span class="s2">"</span><span class="nv">$MINIO_NAME</span><span class="s2">/</span><span class="nv">$MINIO_FOLDER</span><span class="s2">"</span>
+</code></pre>
 
 <p>This enables the hosting of the folder as a static site, which can be viewed by following the random link generated within the script. Now, when a test is run, the coverage report is generated, Gitlab reports the overall statistics and a link is provided in the test job output, which can be followed to see what tests have to be written next. And everyone on the team is on the same page at any time.</p>
 </div>
@@ -263,7 +260,7 @@ $ python -m http.server
 </span>
 </p>
 </div>
-Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+Contents © 2021         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
  <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
  <img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
 
@@ -277,9 +274,7 @@ Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupan�
         <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

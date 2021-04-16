@@ -10,8 +10,8 @@
 <link href="../../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (sl)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (sl)" hreflang="sl" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://jernejzupancic.si/sl/categories/docker/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link rel="alternate" type="application/rss+xml" title="RSS for tag docker (sl)" hreflang="sl" href="../docker.xml">
@@ -22,10 +22,11 @@
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://jernejzupancic.si/sl/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">Jernej Zupančič blog</span>
         </a>
@@ -53,7 +54,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://jernejzupancic.si/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                 
@@ -94,7 +95,7 @@ navbar-dark bg-dark
 </span>
 </p>
 </div>
-Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+Contents © 2021         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
  <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
  <img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
 
@@ -108,9 +109,7 @@ Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupan�
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

@@ -10,8 +10,8 @@
 <link href="../../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (sl)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (sl)" hreflang="sl" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://jernejzupancic.si/sl/posts/mysterious-nginx-upstream-errors/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <meta name="author" content="Jernej Zupančič">
@@ -41,10 +41,11 @@ Docker simplifies the web app development by enab">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://jernejzupancic.si/sl/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">Jernej Zupančič blog</span>
         </a>
@@ -72,7 +73,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://jernejzupancic.si/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                 
@@ -118,13 +119,13 @@ navbar-dark bg-dark
 </li>
 <li>Containerized Web app</li>
 </ol>
-<p>Docker simplifies the web app development by enabling us, the developers, to pin the majority of the software dependencies versions, and, further, to have the exact same dependencies during development as for the deploy. This greatly reduces the "<em>it works on my machine</em>" moments. Those moments do not go away fully, because we usually do not specify the version of every last dependency used, however, they become really rare. One thing we do not test in development, though, is the web app operation when coupled with Nginx. And that sometimes leads to unexpected problems, such as the random upstream errors I will describe in next few lines.
-<!-- TEASER_END --></p>
+<p>Docker simplifies the web app development by enabling us, the developers, to pin the majority of the software dependencies versions, and, further, to have the exact same dependencies during development as for the deploy. This greatly reduces the "<em>it works on my machine</em>" moments. Those moments do not go away fully, because we usually do not specify the version of every last dependency used, however, they become really rare. One thing we do not test in development, though, is the web app operation when coupled with Nginx. And that sometimes leads to unexpected problems, such as the random upstream errors I will describe in next few lines.</p>
+<!-- TEASER_END -->
+
 <h2>The problem</h2>
 <p>When several containers were running on our machine, using the setup as described above, a strange behavior appeared. Our monitoring tool (<a href="https://uptimerobot.com/">UptimeRobot</a>, use it, it is great and has a free tier), reported that one of the web app containers keeps returning service unavailable error every few minutes. It was not always the same app container, after some time and usually after a machine restart, another app container was chosen to be problematic and there was just no deterministic way to figure out which will be hit next. The Nginx kept reporting an error that looked something like follows:</p>
-<pre class="code literal-block"><span></span><span class="o">[</span><span class="n">error</span><span class="o">]</span><span class="w"> </span><span class="mi">27212</span><span class="n">#0</span><span class="err">:</span><span class="w"> </span><span class="o">*</span><span class="mi">314</span><span class="w"> </span><span class="k">no</span><span class="w"> </span><span class="n">live</span><span class="w"> </span><span class="n">upstreams</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="n">connecting</span><span class="w"> </span><span class="k">to</span><span class="w">   </span><span class="n">upstream</span><span class="p">,</span><span class="w"> </span><span class="nl">client</span><span class="p">:</span><span class="w"> </span><span class="n">ip_address</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nl">server</span><span class="p">:</span><span class="w"> </span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="p">,</span><span class="w"> </span><span class="nl">request</span><span class="p">:</span><span class="w"> </span><span class="ss">"GET / HTTP/1.1"</span><span class="p">,</span><span class="w"> </span><span class="nl">upstream</span><span class="p">:</span><span class="w"> </span><span class="ss">"http://example.com"</span><span class="p">,</span><span class="w"> </span><span class="k">host</span><span class="err">:</span><span class="w"> </span><span class="ss">"example.com"</span><span class="p">,</span><span class="w"> </span><span class="nl">referrer</span><span class="p">:</span><span class="w"> </span><span class="ss">"http://example.com/mypages/"</span><span class="w"></span>
-</pre>
-
+<pre class="code literal-block"><span></span><code><span class="o">[</span><span class="n">error</span><span class="o">]</span><span class="w"> </span><span class="mi">27212</span><span class="n">#0</span><span class="err">:</span><span class="w"> </span><span class="o">*</span><span class="mi">314</span><span class="w"> </span><span class="k">no</span><span class="w"> </span><span class="n">live</span><span class="w"> </span><span class="n">upstreams</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="n">connecting</span><span class="w"> </span><span class="k">to</span><span class="w">   </span><span class="n">upstream</span><span class="p">,</span><span class="w"> </span><span class="nl">client</span><span class="p">:</span><span class="w"> </span><span class="n">ip_address</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nl">server</span><span class="p">:</span><span class="w"> </span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="p">,</span><span class="w"> </span><span class="nl">request</span><span class="p">:</span><span class="w"> </span><span class="ss">"GET / HTTP/1.1"</span><span class="p">,</span><span class="w"> </span><span class="nl">upstream</span><span class="p">:</span><span class="w"> </span><span class="ss">"http://example.com"</span><span class="p">,</span><span class="w"> </span><span class="k">host</span><span class="err">:</span><span class="w"> </span><span class="ss">"example.com"</span><span class="p">,</span><span class="w"> </span><span class="nl">referrer</span><span class="p">:</span><span class="w"> </span><span class="ss">"http://example.com/mypages/"</span><span class="w"></span>
+</code></pre>
 
 <p>We used our Google-fu to no success. Apparently no-one else on Github issues or Stackoverflow was having those problems. We just crossed our fingers that the next container "hit" by this strange behavior won't be the one that matters and at the time when it matters, before we address the issue. And that's exactly what happened. The boss wanted an application demonstration, which we could not deliver, because the browser kept showing the 502 - Service unavailable error.</p>
 <h2>Getting serious</h2>
@@ -132,9 +133,8 @@ navbar-dark bg-dark
 <p>So I tried to systematically analyze our problem in order to finally find some pattern about the frequency of the error or about which container would be hit next. Since Nginx complained that there was no live upstream I <code>curl</code>ed the endpoints within the app containers to count how many times the web app from within the container would die. </p>
 <h2>Lucky stumble</h2>
 <p>Now guess what. None of the containerized web apps ever died and what is more, even UptimeRobot stopped reporting the 502 errors for the time of the test. So I had an idea, I will simply set-up a cron job to periodically <code>curl</code> the endpoints of every container running. The following line was born after some trial and error</p>
-<pre class="code literal-block"><span></span>docker ps -q <span class="p">|</span> xargs -I<span class="o">{}</span> docker inspect <span class="o">{}</span> <span class="p">|</span> jq <span class="s1">'.[0].NetworkSettings.Networks | .[].IPAddress'</span> <span class="p">|</span> xargs -I<span class="o">{}</span> curl -I <span class="o">{}</span>
-</pre>
-
+<pre class="code literal-block"><span></span><code>docker ps -q <span class="p">|</span> xargs -I<span class="o">{}</span> docker inspect <span class="o">{}</span> <span class="p">|</span> jq <span class="s1">'.[0].NetworkSettings.Networks | .[].IPAddress'</span> <span class="p">|</span> xargs -I<span class="o">{}</span> curl -I <span class="o">{}</span>
+</code></pre>
 
 <p>This line, together with <code>cron</code> now keeps the lights on and applications running without 502 for several months now and unless someone tells me how to solve the problem properly it will stay that way for a while. </p>
 <p>It nags me that I could not find a proper solution, however:</p>
@@ -190,7 +190,7 @@ navbar-dark bg-dark
 </span>
 </p>
 </div>
-Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+Contents © 2021         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupančič</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
  <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
  <img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
 
@@ -204,9 +204,7 @@ Contents © 2020         <a href="mailto:jernej@jernejzupancic.si">Jernej Zupan�
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>
