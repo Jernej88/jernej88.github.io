@@ -12,7 +12,7 @@
 
 # Hi dear visitor
 
-![Me waving at you!](portrait_1_xs.png){: style="float:right; padding:16px"}
+![Me waving at you!](/portrait_1_xs.png){: style="float:right; padding:16px"}
 I am Jernej Zupančič. I am interested in applying data and data manipulation to solve real world problems.
 
 ## My interests
